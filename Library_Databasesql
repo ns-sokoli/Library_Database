@@ -1,0 +1,125 @@
+drop table writes;
+drop table holds;
+drop table borrowInfo;
+drop table handles;
+drop table review;
+drop table borrows;
+
+drop table books;
+drop table authors;
+drop table bookReviews;
+drop table booksBorrowed;
+drop table staff;
+drop table bookHolder;
+
+CREATE TABLE books(
+    bookID INT PRIMARY KEY,
+    genre varchar2(25) NOT NULL,
+    publicationYr varchar2(4) NOT NULL,
+    condition varchar2(25) NOT NULL,
+    available char NOT NULL,
+    title varchar2(25) NOT NULL
+);
+DESC books;
+
+INSERT INTO books(bookID,genre,publicationYr,condition,available,title) values(1,'action',2000,'well used','Y','book');
+SELECT * FROM books;
+
+CREATE TABLE authors (
+    authorID INT PRIMARY KEY,
+    dob varchar2(10) NOT NULL,
+    nationality varchar2(25) NOT NULL,
+    age INT NOT NULL CHECK(age > 0),
+    firstN varchar2(25) NOT NULL,
+    lastN varchar2(25) NOT NULL
+);
+DESC authors;
+
+CREATE TABLE writes (
+    authorID INT REFERENCES authors(authorID),
+    bookID INT REFERENCES books(bookID),
+    
+    PRIMARY KEY(bookID,authorID)
+);
+DESC writes;
+
+CREATE TABLE bookReviews (
+    reviewID INT PRIMARY KEY,
+    reviewD varchar2(10) NOT NULL,
+    rating INT NOT NULL CHECK(rating BETWEEN 1 AND 10)
+);
+DESC bookReviews;
+
+CREATE TABLE holds (
+    reviewID INT REFERENCES bookReviews(reviewID),
+    bookID INT REFERENCES books(bookID),
+    
+    PRIMARY KEY(bookID,reviewID)
+);
+DESC holds;
+
+CREATE TABLE booksBorrowed (
+    loanID INT PRIMARY KEY,
+    borrowD varchar2(10) NOT NULL,
+    returnD varchar2(10),
+    lateFee NUMBER NOT NULL CHECK (lateFee >= 0),
+    fineStat CHAR NOT NULL
+);
+DESC booksBorrowed;
+
+CREATE TABLE borrowInfo(
+    loanID INT REFERENCES booksBorrowed(loanID),
+    bookID INT REFERENCES books(bookID),
+    
+    PRIMARY KEY(bookID,loanID)
+);
+DESC borrowInfo;
+
+CREATE TABLE staff(
+    staffID INT PRIMARY KEY,
+    firstN varchar2(25) NOT NULL,
+    lastN varchar2(25) NOT NULL,
+    email varchar2(25) NOT NULL,
+    phone varchar2(12) NOT NULL,
+    jobTitle varchar2(25) NOT NULL,
+    employmentD varchar2(25) NOT NULL,
+    salary NUMBER NOT NULL CHECK(salary > 10000),
+    workFreq varchar2(25) NOT NULL
+);
+DESC staff;
+
+CREATE TABLE handles (
+    staffID INT REFERENCES staff(staffID),
+    bookID INT REFERENCES books(bookID),
+    
+    PRIMARY KEY(bookID,staffID)
+);
+DESC handles;
+
+CREATE TABLE bookHolder (
+    holderID INT PRIMARY KEY,
+    email varchar2(25) NOT NULL,
+    phone varchar2(12) NOT NULL,
+    membershipStart varchar2(10) NOT NULL,
+    membershipExpire varchar2(10) NOT NULL,
+    firstN varchar2(25) NOT NULL,
+    address varchar2(25) NOT NULL,
+    memberStatus char NOT NULL
+);
+DESC bookHolder;
+
+CREATE TABLE review (
+    reviewID INT REFERENCES bookReviews(reviewID),
+    holderID INT REFERENCES bookHolder(holderID),
+    
+    PRIMARY KEY(holderID,reviewID)
+);
+DESC review;
+
+CREATE TABLE borrows (
+    holderID INT REFERENCES bookHolder(holderID),
+    loanID INT REFERENCES booksBorrowed(loanID),
+    
+    PRIMARY KEY(holderID,loanID)
+);
+DESC borrows;
