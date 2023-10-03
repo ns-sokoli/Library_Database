@@ -22,8 +22,20 @@ CREATE TABLE books(
 );
 DESC books;
 
-INSERT INTO books(bookID,genre,publicationYr,condition,available,title) values(1,'action',2000,'well used','Y','book');
-SELECT * FROM books;
+INSERT INTO books(bookID,genre,publicationYr,condition,available,title) VALUES
+(1,'action',2000,'well used','Y','book');
+INSERT INTO books(bookID,genre,publicationYr,condition,available,title) VALUES
+(2,'action',2002,'used','Y','bookey');
+INSERT INTO books(bookID,genre,publicationYr,condition,available,title) VALUES
+(3,'comedy',1999,'old','N','bookin');
+INSERT INTO books(bookID,genre,publicationYr,condition,available,title) VALUES
+(4,'romance',2011,'new','N','bookley');
+INSERT INTO books(bookID,genre,publicationYr,condition,available,title) VALUES
+(5,'action',2019,'used','Y','booksey');
+INSERT INTO books(bookID,genre,publicationYr,condition,available,title) VALUES
+(6,'comedy',2004,'new','Y','bok');
+INSERT INTO books(bookID,genre,publicationYr,condition,available,title) VALUES
+(7,'horror',2002,'old','N','boook');
 
 CREATE TABLE authors (
     authorID INT PRIMARY KEY,
@@ -34,6 +46,9 @@ CREATE TABLE authors (
     lastN varchar2(25) NOT NULL
 );
 DESC authors;
+
+INSERT INTO authors(authorID, dob, nationality, age, firstN, lastN)
+VALUES (1, '22/02/1990', 'Australian', 33, 'Harold', 'Aussie');
 
 CREATE TABLE writes (
     authorID INT REFERENCES authors(authorID),
@@ -49,6 +64,9 @@ CREATE TABLE bookReviews (
     rating INT NOT NULL CHECK(rating BETWEEN 1 AND 10)
 );
 DESC bookReviews;
+
+INSERT INTO bookReviews(reviewID, reviewD, rating)
+VALUES (1, '12/04/2021', 9);
 
 CREATE TABLE holds (
     reviewID INT REFERENCES bookReviews(reviewID),
@@ -67,6 +85,9 @@ CREATE TABLE booksBorrowed (
 );
 DESC booksBorrowed;
 
+INSERT INTO booksBorrowed(loanID, borrowD, returnD, lateFee, fineStat)
+VALUES (1, '09/11/2022', '09/01/2023', 90.00, 'Y');
+
 CREATE TABLE borrowInfo(
     loanID INT REFERENCES booksBorrowed(loanID),
     bookID INT REFERENCES books(bookID),
@@ -82,11 +103,14 @@ CREATE TABLE staff(
     email varchar2(25) NOT NULL,
     phone varchar2(12) NOT NULL,
     jobTitle varchar2(25) NOT NULL,
-    employmentD varchar2(25) NOT NULL,
+    employmentD varchar2(10) NOT NULL,
     salary NUMBER NOT NULL CHECK(salary > 10000),
     workFreq varchar2(25) NOT NULL
 );
 DESC staff;
+
+INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentD, salary, workFreq)
+VALUES (1, 'Jimmy', 'Benson', 'JB@gmail.com', '416-551-2341', 'Senior Shelf Operator', '29/11/2010', 32000, '30hr/week');
 
 CREATE TABLE handles (
     staffID INT REFERENCES staff(staffID),
@@ -108,6 +132,9 @@ CREATE TABLE bookHolder (
 );
 DESC bookHolder;
 
+INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
+VALUES(1, 'hadan.books@hotmail.com', '647-982-3573', '20/04/2015', '20/04/2025','Hadan', '152 Bookboy Ave', 'A');
+
 CREATE TABLE review (
     reviewID INT REFERENCES bookReviews(reviewID),
     holderID INT REFERENCES bookHolder(holderID),
@@ -123,3 +150,10 @@ CREATE TABLE borrows (
     PRIMARY KEY(holderID,loanID)
 );
 DESC borrows;
+
+SELECT * FROM books;
+SELECT * FROM authors;
+SELECT * FROM bookReviews;
+SELECT * FROM booksBorrowed;
+SELECT * FROM staff;
+SELECT * FROM bookHolder;
