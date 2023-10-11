@@ -66,6 +66,18 @@ CREATE TABLE writes (
 );
 DESC writes;
 
+INSERT INTO writes (authorID, bookID)
+VALUES (1, 1);
+INSERT INTO writes (authorID, bookID)
+VALUES (1, 2);
+INSERT INTO writes (authorID, bookID)
+VALUES (2, 3);
+INSERT INTO writes (authorID, bookID)
+VALUES (2, 4);
+INSERT INTO writes (authorID, bookID)
+VALUES (3, 5);
+
+
 CREATE TABLE bookReviews (
     reviewID INT PRIMARY KEY,
     reviewD varchar2(10) NOT NULL,
@@ -91,6 +103,20 @@ CREATE TABLE holds (
     PRIMARY KEY(bookID,reviewID)
 );
 DESC holds;
+
+INSERT INTO holds(reviewID, bookID)
+VALUES (1, 1);
+INSERT INTO holds(reviewID, bookID)
+VALUES (2, 1);
+INSERT INTO holds(reviewID, bookID)
+VALUES (3, 1);
+INSERT INTO holds(reviewID, bookID)
+VALUES (4, 2);
+INSERT INTO holds(reviewID, bookID)
+VALUES (5, 3);
+
+
+
 
 CREATE TABLE booksBorrowed (
     loanID INT PRIMARY KEY,
@@ -119,6 +145,8 @@ CREATE TABLE borrowInfo(
     PRIMARY KEY(bookID,loanID)
 );
 DESC borrowInfo;
+
+
 
 CREATE TABLE staff(
     staffID INT PRIMARY KEY,
@@ -152,6 +180,8 @@ CREATE TABLE handles (
 );
 DESC handles;
 
+
+
 CREATE TABLE bookHolder (
     holderID INT PRIMARY KEY,
     email varchar2(25) NOT NULL,
@@ -183,6 +213,18 @@ CREATE TABLE review (
 );
 DESC review;
 
+INSERT INTO review (reviewID, holderID)
+VALUES (1, 1);
+INSERT INTO review (reviewID, holderID)
+VALUES (2, 2);
+INSERT INTO review (reviewID, holderID)
+VALUES (3, 3);
+INSERT INTO review (reviewID, holderID)
+VALUES (4, 3);
+INSERT INTO review (reviewID, holderID)
+VALUES (5, 4);
+
+
 CREATE TABLE borrows (
     holderID INT REFERENCES bookHolder(holderID),
     loanID INT REFERENCES booksBorrowed(loanID),
@@ -191,12 +233,43 @@ CREATE TABLE borrows (
 );
 DESC borrows;
 
+INSERT INTO borrows (holderID, loanID)
+VALUES (1, 1);
+INSERT INTO borrows (holderID, loanID)
+VALUES (2, 2);
+INSERT INTO borrows (holderID, loanID)
+VALUES (3, 3);
+INSERT INTO borrows (holderID, loanID)
+VALUES (3, 4);
+INSERT INTO borrows (holderID, loanID)
+VALUES (4, 5);
+
+
+
+
+INSERT INTO borrowInfo(loanID, bookID)
+VALUES (1, 1);
+INSERT INTO borrowInfo(loanID, bookID)
+VALUES (2, 1);
+INSERT INTO borrowInfo(loanID, bookID)
+VALUES (3, 1);
+INSERT INTO borrowInfo(loanID, bookID)
+VALUES (4, 2);
+INSERT INTO borrowInfo(loanID, bookID)
+VALUES (5, 3);
+
 SELECT * FROM books;
 SELECT * FROM authors;
 SELECT * FROM bookReviews;
 SELECT * FROM booksBorrowed;
 SELECT * FROM staff;
 SELECT * FROM bookHolder;
+
+SELECT * FROM writes;
+SELECT * FROM holds;
+SELECT * FROM review;
+SELECT * FROM borrows;
+SELECT * FROM borrowInfo;
 
 --Query 1
 SELECT DISTINCT genre
