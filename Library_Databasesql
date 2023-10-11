@@ -310,4 +310,26 @@ FROM staff
 WHERE salary > 35000
 ORDER BY salary DESC;
 
+--Advanced Query 1
+--Gets the name of the person that wrote the review, the name of the book and the rating they gave
+SELECT bookHolder.firstN, books.title, bookReviews.rating, bookReviews.reviewD   
+FROM bookHolder
+INNER JOIN review
+    ON bookHolder.holderID = review.holderID
+INNER JOIN bookReviews 
+    ON bookReviews.reviewID = review.reviewID
+INNER JOIN holds
+    ON bookReviews.reviewID = holds.reviewID
+INNER JOIN books
+    ON holds.bookID = books.bookID;
+    
+
+--Advanced Query 2
+-- gets the author name,the book they wrote and the genre
+SELECT authors.firstN, authors.lastN, books.title, books.genre
+FROM authors
+INNER JOIN writes
+    ON authors.authorID = writes.authorID
+INNER JOIN books
+    ON writes.bookID = books.bookID;
 
