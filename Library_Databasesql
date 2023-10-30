@@ -374,7 +374,7 @@ UNION
 SELECT bh.firstN 
 FROM bookHolder bh
 WHERE EXISTS (
-    SELECT 1
+    SELECT *
     FROM borrows bo
     WHERE bo.holderID = bh.holderID
 );
