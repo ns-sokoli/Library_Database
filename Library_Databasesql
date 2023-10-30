@@ -188,21 +188,22 @@ CREATE TABLE bookHolder (
     membershipStart DATE NOT NULL,
     membershipExpire DATE NOT NULL,
     firstN varchar2(25) NOT NULL,
+    lastN varchar2(25) NOT NULL,
     address varchar2(25) NOT NULL,
     memberStatus char NOT NULL
 );
 DESC bookHolder;
 
-INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
-VALUES (1, 'hadan.books@hotmail.com', '647-982-3573', TO_DATE('2015-04-20', 'YYYY-MM-DD'), TO_DATE('2025-04-20', 'YYYY-MM-DD'), 'Hadan', '152 Bookboy Ave', 'A');
-INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
-VALUES (2, 'jane.smith@gmail.com', '416-555-7890', TO_DATE('2018-08-12', 'YYYY-MM-DD'), TO_DATE('2023-08-12', 'YYYY-MM-DD'), 'Jane', '789 Library Lane', 'A');
-INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
-VALUES (3, 'mark.johnson@yahoo.com', '512-987-6543', TO_DATE('2020-03-05', 'YYYY-MM-DD'), TO_DATE('2024-03-05', 'YYYY-MM-DD'), 'Mark', '456 Bookshelf St', 'A');
-INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
-VALUES (4, 'lisa.wilson@gmail.com', '713-333-2222', TO_DATE('2019-11-30', 'YYYY-MM-DD'), TO_DATE('2022-11-30', 'YYYY-MM-DD'), 'Lisa', '123 Reading Rd', 'I');
-INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
-VALUES (5, 'sam.jones@hotmail.com', '415-777-1111', TO_DATE('2021-06-18', 'YYYY-MM-DD'), TO_DATE('2026-06-18', 'YYYY-MM-DD'), 'Sam', '567 Bookworm Blvd', 'A');
+INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, lastN, address, memberStatus)
+VALUES (1, 'hadan.books@hotmail.com', '647-982-3573', TO_DATE('2015-04-20', 'YYYY-MM-DD'), TO_DATE('2025-04-20', 'YYYY-MM-DD'), 'Hadan', 'books', '152 Bookboy Ave', 'A');
+INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, lastN, address, memberStatus)
+VALUES (2, 'jane.smith@gmail.com', '416-555-7890', TO_DATE('2018-08-12', 'YYYY-MM-DD'), TO_DATE('2023-08-12', 'YYYY-MM-DD'), 'Jane', 'smith', '789 Library Lane', 'A');
+INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, lastN, address, memberStatus)
+VALUES (3, 'mark.johnson@yahoo.com', '512-987-6543', TO_DATE('2020-03-05', 'YYYY-MM-DD'), TO_DATE('2024-03-05', 'YYYY-MM-DD'), 'Mark', 'johnson', '456 Bookshelf St', 'A');
+INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, lastN, address, memberStatus)
+VALUES (4, 'lisa.wilson@gmail.com', '713-333-2222', TO_DATE('2019-11-30', 'YYYY-MM-DD'), TO_DATE('2022-11-30', 'YYYY-MM-DD'), 'Lisa', 'wilson', '123 Reading Rd', 'I');
+INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, lastN, address, memberStatus)
+VALUES (5, 'sam.jones@hotmail.com', '415-777-1111', TO_DATE('2021-06-18', 'YYYY-MM-DD'), TO_DATE('2026-06-18', 'YYYY-MM-DD'), 'Sam', 'jones', '567 Bookworm Blvd', 'A');
 
 CREATE TABLE review (
     reviewID INT REFERENCES bookReviews(reviewID),
