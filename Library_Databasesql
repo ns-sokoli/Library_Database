@@ -43,7 +43,7 @@ INSERT INTO books(bookID,genre,publicationYr,condition,available,title) VALUES
 
 CREATE TABLE authors (
     authorID INT PRIMARY KEY,
-    dob varchar2(10) NOT NULL,
+    dob DATE NOT NULL,
     nationality varchar2(25) NOT NULL,
     age INT NOT NULL CHECK(age > 0),
     firstN varchar2(25) NOT NULL,
@@ -52,15 +52,15 @@ CREATE TABLE authors (
 DESC authors;
 
 INSERT INTO authors(authorID, dob, nationality, age, firstN, lastN)
-VALUES (1, '22/02/1990', 'Australian', 33, 'Harold', 'Aussie');
+VALUES (1, TO_DATE('1990-02-22', 'YYYY-MM-DD'), 'Australian', 33, 'Harold', 'Aussie');
 INSERT INTO authors(authorID, dob, nationality, age, firstN, lastN)
-VALUES (2, '15/07/1985', 'American', 38, 'Emily', 'Smith');
+VALUES (2, TO_DATE('1985-07-15', 'YYYY-MM-DD'), 'American', 38, 'Emily', 'Smith');
 INSERT INTO authors(authorID, dob, nationality, age, firstN, lastN)
-VALUES (3, '10/11/1978', 'British', 45, 'William', 'Jones');
+VALUES (3, TO_DATE('1978-11-10', 'YYYY-MM-DD'), 'British', 45, 'William', 'Jones');
 INSERT INTO authors(authorID, dob, nationality, age, firstN, lastN)
-VALUES (4, '03/04/1995', 'Canadian', 28, 'Sophia', 'Chen');
+VALUES (4, TO_DATE('1995-04-03', 'YYYY-MM-DD'), 'Canadian', 28, 'Sophia', 'Chen');
 INSERT INTO authors(authorID, dob, nationality, age, firstN, lastN)
-VALUES (5, '12/09/1980', 'Irish', 43, 'Liam', 'Murphy');
+VALUES (5, TO_DATE('1980-09-12', 'YYYY-MM-DD'), 'Irish', 43, 'Liam', 'Murphy');
 
 CREATE TABLE writes (
     authorID INT REFERENCES authors(authorID),
@@ -84,26 +84,25 @@ VALUES (3, 5);
 
 CREATE TABLE bookReviews (
     reviewID INT PRIMARY KEY,
-    reviewD varchar2(10) NOT NULL,
+    reviewDate DATE NOT NULL,
     rating INT NOT NULL CHECK(rating BETWEEN 1 AND 10)
 );
 DESC bookReviews;
 
-INSERT INTO bookReviews(reviewID, reviewD, rating)
-VALUES (1, '12/04/2021', 9);
-INSERT INTO bookReviews(reviewID, reviewD, rating)
-VALUES (2, '05/07/2021', 8);
-INSERT INTO bookReviews(reviewID, reviewD, rating)
-VALUES (3, '22/09/2021', 7);
-INSERT INTO bookReviews(reviewID, reviewD, rating)
-VALUES (4, '15/12/2021', 6);
-INSERT INTO bookReviews(reviewID, reviewD, rating)
-VALUES (5, '03/02/2022', 9);
+INSERT INTO bookReviews(reviewID, reviewDate, rating)
+VALUES (1, TO_DATE('2021-04-12', 'YYYY-MM-DD'), 9);
+INSERT INTO bookReviews(reviewID, reviewDate, rating)
+VALUES (2, TO_DATE('2021-07-05', 'YYYY-MM-DD'), 8);
+INSERT INTO bookReviews(reviewID, reviewDate, rating)
+VALUES (3, TO_DATE('2021-09-22', 'YYYY-MM-DD'), 7);
+INSERT INTO bookReviews(reviewID, reviewDate, rating)
+VALUES (4, TO_DATE('2021-12-15', 'YYYY-MM-DD'), 6);
+INSERT INTO bookReviews(reviewID, reviewDate, rating)
+VALUES (5, TO_DATE('2022-02-03', 'YYYY-MM-DD'), 9);
 
 CREATE TABLE holds (
     reviewID INT REFERENCES bookReviews(reviewID),
     bookID INT REFERENCES books(bookID),
-    
     PRIMARY KEY(bookID,reviewID)
 );
 DESC holds;
@@ -120,32 +119,29 @@ INSERT INTO holds(reviewID, bookID)
 VALUES (5, 3);
 
 
-
-
 CREATE TABLE booksBorrowed (
     loanID INT PRIMARY KEY,
-    borrowD varchar2(10) NOT NULL,
-    returnD varchar2(10),
+    borrowDate DATE NOT NULL,
+    returnDate DATE NOT NULL,
     lateFee NUMBER NOT NULL CHECK (lateFee >= 0),
     fineStat CHAR NOT NULL
 );
 DESC booksBorrowed;
 
-INSERT INTO booksBorrowed(loanID, borrowD, returnD, lateFee, fineStat)
-VALUES (1, '09/11/2022', '09/01/2023', 90.00, 'Y');
-INSERT INTO booksBorrowed(loanID, borrowD, returnD, lateFee, fineStat)
-VALUES (2, '07/05/2022', '07/07/2022', 25.50, 'N');
-INSERT INTO booksBorrowed(loanID, borrowD, returnD, lateFee, fineStat)
-VALUES (3, '12/03/2022', '12/04/2022', 12.75, 'N');
-INSERT INTO booksBorrowed(loanID, borrowD, returnD, lateFee, fineStat)
-VALUES (4, '04/08/2022', '04/09/2022', 20.00, 'N');
-INSERT INTO booksBorrowed(loanID, borrowD, returnD, lateFee, fineStat)
-VALUES (5, '11/01/2022', '11/03/2022', 45.00, 'Y');
+INSERT INTO booksBorrowed(loanID, borrowDate, returnDate, lateFee, fineStat)
+VALUES (1, TO_DATE('2022-09-11', 'YYYY-MM-DD'), TO_DATE('2023-09-01', 'YYYY-MM-DD'), 90.00, 'Y');
+INSERT INTO booksBorrowed(loanID, borrowDate, returnDate, lateFee, fineStat)
+VALUES (2, TO_DATE('2022-07-05', 'YYYY-MM-DD'), TO_DATE('2022-07-07', 'YYYY-MM-DD'), 25.50, 'N');
+INSERT INTO booksBorrowed(loanID, borrowDate, returnDate, lateFee, fineStat)
+VALUES (3, TO_DATE('2022-12-03', 'YYYY-MM-DD'), TO_DATE('2022-12-04', 'YYYY-MM-DD'), 12.75, 'N');
+INSERT INTO booksBorrowed(loanID, borrowDate, returnDate, lateFee, fineStat)
+VALUES (4, TO_DATE('2022-04-08', 'YYYY-MM-DD'), TO_DATE('2022-04-09', 'YYYY-MM-DD'), 20.00, 'N');
+INSERT INTO booksBorrowed(loanID, borrowDate, returnDate, lateFee, fineStat)
+VALUES (5, TO_DATE('2022-11-01', 'YYYY-MM-DD'), TO_DATE('2022-11-03', 'YYYY-MM-DD'), 45.00, 'Y');
 
 CREATE TABLE borrowInfo(
     loanID INT REFERENCES booksBorrowed(loanID),
     bookID INT REFERENCES books(bookID),
-    
     PRIMARY KEY(bookID,loanID)
 );
 DESC borrowInfo;
@@ -159,27 +155,26 @@ CREATE TABLE staff(
     email varchar2(25) NOT NULL,
     phone varchar2(12) NOT NULL,
     jobTitle varchar2(25) NOT NULL,
-    employmentD varchar2(10) NOT NULL,
+    employmentDate DATE NOT NULL, 
     salary NUMBER NOT NULL CHECK(salary > 10000),
     workFreq varchar2(25) NOT NULL
 );
 DESC staff;
 
-INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentD, salary, workFreq)
-VALUES (1, 'Jimmy', 'Benson', 'JB@gmail.com', '416-551-2341', 'Senior Shelf Operator', '29/11/2010', 32000, '30hr/week');
-INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentD, salary, workFreq)
-VALUES (2, 'Sarah', 'Johnson', 'sj@gmail.com', '415-777-9988', 'Assistant Librarian', '15/06/2015', 42000, '40hr/week');
-INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentD, salary, workFreq)
-VALUES (3, 'Michael', 'Smith', 'ms@gmail.com', '512-333-7890', 'Library Clerk', '03/09/2019', 30000, '35hr/week');
-INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentD, salary, workFreq)
-VALUES (4, 'Emily', 'Davis', 'ed@gmail.com', '713-555-1234', 'Cataloging Specialist', '22/02/2020', 38000, '38hr/week');
-INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentD, salary, workFreq)
-VALUES (5, 'Daniel', 'Brown', 'db@gmail.com', '415-888-5678', 'Library Technician', '17/11/2018', 35000, '37hr/week');
+INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentDate, salary, workFreq)
+VALUES (1, 'Jimmy', 'Benson', 'JB@gmail.com', '416-551-2341', 'Senior Shelf Operator', TO_DATE('2010-11-29', 'YYYY-MM-DD'), 32000, '30hr/week');
+INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentDate, salary, workFreq)
+VALUES (2, 'Sarah', 'Johnson', 'sj@gmail.com', '415-777-9988', 'Assistant Librarian', TO_DATE('2015-06-15', 'YYYY-MM-DD'), 42000, '40hr/week');
+INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentDate, salary, workFreq)
+VALUES (3, 'Michael', 'Smith', 'ms@gmail.com', '512-333-7890', 'Library Clerk', TO_DATE('2019-09-03', 'YYYY-MM-DD'), 30000, '35hr/week');
+INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentDate, salary, workFreq)
+VALUES (4, 'Emily', 'Davis', 'ed@gmail.com', '713-555-1234', 'Cataloging Specialist', TO_DATE('2020-02-22', 'YYYY-MM-DD'), 38000, '38hr/week');
+INSERT INTO staff(staffID, firstN, lastN, email, phone, jobTitle, employmentDate, salary, workFreq)
+VALUES (5, 'Daniel', 'Brown', 'db@gmail.com', '415-888-5678', 'Library Technician', TO_DATE('2018-11-17', 'YYYY-MM-DD'), 35000, '37hr/week');
 
 CREATE TABLE handles (
     staffID INT REFERENCES staff(staffID),
     bookID INT REFERENCES books(bookID),
-    
     PRIMARY KEY(bookID,staffID)
 );
 DESC handles;
@@ -190,8 +185,8 @@ CREATE TABLE bookHolder (
     holderID INT PRIMARY KEY,
     email varchar2(25) NOT NULL,
     phone varchar2(12) NOT NULL,
-    membershipStart varchar2(10) NOT NULL,
-    membershipExpire varchar2(10) NOT NULL,
+    membershipStart DATE NOT NULL,
+    membershipExpire DATE NOT NULL,
     firstN varchar2(25) NOT NULL,
     address varchar2(25) NOT NULL,
     memberStatus char NOT NULL
@@ -199,20 +194,19 @@ CREATE TABLE bookHolder (
 DESC bookHolder;
 
 INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
-VALUES(1, 'hadan.books@hotmail.com', '647-982-3573', '20/04/2015', '20/04/2025','Hadan', '152 Bookboy Ave', 'A');
+VALUES (1, 'hadan.books@hotmail.com', '647-982-3573', TO_DATE('2015-04-20', 'YYYY-MM-DD'), TO_DATE('2025-04-20', 'YYYY-MM-DD'), 'Hadan', '152 Bookboy Ave', 'A');
 INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
-VALUES (2, 'jane.smith@gmail.com', '416-555-7890', '12/08/2018', '12/08/2023', 'Jane', '789 Library Lane', 'A');
+VALUES (2, 'jane.smith@gmail.com', '416-555-7890', TO_DATE('2018-08-12', 'YYYY-MM-DD'), TO_DATE('2023-08-12', 'YYYY-MM-DD'), 'Jane', '789 Library Lane', 'A');
 INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
-VALUES (3, 'mark.johnson@yahoo.com', '512-987-6543', '05/03/2020', '05/03/2024', 'Mark', '456 Bookshelf St', 'A');
+VALUES (3, 'mark.johnson@yahoo.com', '512-987-6543', TO_DATE('2020-03-05', 'YYYY-MM-DD'), TO_DATE('2024-03-05', 'YYYY-MM-DD'), 'Mark', '456 Bookshelf St', 'A');
 INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
-VALUES (4, 'lisa.wilson@gmail.com', '713-333-2222', '30/11/2019', '30/11/2022', 'Lisa', '123 Reading Rd', 'I');
+VALUES (4, 'lisa.wilson@gmail.com', '713-333-2222', TO_DATE('2019-11-30', 'YYYY-MM-DD'), TO_DATE('2022-11-30', 'YYYY-MM-DD'), 'Lisa', '123 Reading Rd', 'I');
 INSERT INTO bookHolder(holderID, email, phone, membershipStart, membershipExpire, firstN, address, memberStatus)
-VALUES (5, 'sam.jones@hotmail.com', '415-777-1111', '18/06/2021', '18/06/2026', 'Sam', '567 Bookworm Blvd', 'A');
+VALUES (5, 'sam.jones@hotmail.com', '415-777-1111', TO_DATE('2021-06-18', 'YYYY-MM-DD'), TO_DATE('2026-06-18', 'YYYY-MM-DD'), 'Sam', '567 Bookworm Blvd', 'A');
 
 CREATE TABLE review (
     reviewID INT REFERENCES bookReviews(reviewID),
     holderID INT REFERENCES bookHolder(holderID),
-    
     PRIMARY KEY(holderID,reviewID)
 );
 DESC review;
@@ -232,7 +226,6 @@ VALUES (5, 4);
 CREATE TABLE borrows (
     holderID INT REFERENCES bookHolder(holderID),
     loanID INT REFERENCES booksBorrowed(loanID),
-    
     PRIMARY KEY(holderID,loanID)
 );
 DESC borrows;
