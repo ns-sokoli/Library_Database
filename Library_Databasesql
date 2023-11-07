@@ -8,6 +8,7 @@ drop table borrows;
 drop table books;
 drop table authors;
 drop table bookReviews;
+drop table bookAppraisal;
 drop table booksBorrowed;
 drop table staff;
 drop table bookHolder;
@@ -99,6 +100,34 @@ INSERT INTO bookReviews(reviewID, reviewDate, rating)
 VALUES (4, TO_DATE('2021-12-15', 'YYYY-MM-DD'), 6);
 INSERT INTO bookReviews(reviewID, reviewDate, rating)
 VALUES (5, TO_DATE('2022-02-03', 'YYYY-MM-DD'), 9);
+
+CREATE TABLE bookAppraisal (
+    rating INT PRIMARY KEY CHECK(rating BETWEEN 1 AND 10),
+    ranking VARCHAR(255) NOT NULL
+);
+DESC bookAppraisel;
+
+INSERT INTO bookAppraisal(rating, ranking)
+VALUES (1, 'Bad');
+INSERT INTO bookAppraisal(rating, ranking)
+VALUES (2, 'Bad');
+INSERT INTO bookAppraisal(rating, ranking)
+VALUES (3, 'Bad');
+INSERT INTO bookAppraisal(rating, ranking)
+VALUES (4, 'Decent');
+INSERT INTO bookAppraisal(rating, ranking)
+VALUES (5, 'Decent');
+INSERT INTO bookAppraisal(rating, ranking)
+VALUES (6, 'Decent');
+INSERT INTO bookAppraisal(rating, ranking)
+VALUES (7, 'Decent');
+INSERT INTO bookAppraisal(rating, ranking)
+VALUES (8, 'Good');
+INSERT INTO bookAppraisal(rating, ranking)
+VALUES (9, 'Good');
+INSERT INTO bookAppraisal(rating, ranking)
+VALUES (10, 'Good');
+
 
 CREATE TABLE holds (
     reviewID INT REFERENCES bookReviews(reviewID),
@@ -259,6 +288,7 @@ VALUES (5, 3);
 SELECT * FROM books;
 SELECT * FROM authors;
 SELECT * FROM bookReviews;
+SELECT * FROM bookAppraisal;
 SELECT * FROM booksBorrowed;
 SELECT * FROM staff;
 SELECT * FROM bookHolder;
@@ -268,6 +298,7 @@ SELECT * FROM holds;
 SELECT * FROM review;
 SELECT * FROM borrows;
 SELECT * FROM borrowInfo;
+
 
 --Query 1
 SELECT DISTINCT genre
